@@ -12,6 +12,7 @@ public class BrowserLaunch {
         // driver=new EdgeDriver(); //launch edge
         //driver=new FirefoxDriver(); // launch firefox
         driver.manage().window().maximize(); //maximise the browser
+        driver.manage().deleteAllCookies(); // To delete cookies
         driver.get("https://selenium.obsqurazone.com/index.php"); //load URL
         String actualTitle = driver.getTitle(); // get the title of the website
         System.out.println(actualTitle); // to get the title of the website
