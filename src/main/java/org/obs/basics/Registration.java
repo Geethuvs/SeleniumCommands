@@ -1,5 +1,6 @@
 package org.obs.basics;
 
+import org.obs.utility.RandomData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,30 +14,40 @@ public class Registration {
         driver.manage().deleteAllCookies();
         WebElement registration= driver.findElement(By.xpath("//a[text()='REGISTER']"));
         registration.click();
+        String fn= RandomData.getFirstName();
+        String ln=RandomData.getLastName();
+        String em=RandomData.getEmail();
+        String pNum=RandomData.getPhoneNumber();
+        String adr=RandomData.getAddress();
+        String cty=RandomData.getCity();
+        String ste=RandomData.getState();
+        String pwd=RandomData.getPassword();
+        String postCode=RandomData.getPostalCode();
         WebElement firstName= driver.findElement(By.xpath("//input[@name='firstName']"));
-        firstName.sendKeys("ABC");
+        firstName.sendKeys(fn);
         WebElement lastName= driver.findElement(By.xpath("//input[@name='lastName']"));
-        lastName.sendKeys("vs");
+        lastName.sendKeys(ln);
         WebElement phone= driver.findElement(By.xpath("//input[@name='phone']"));
-        phone.sendKeys("1234");
+        phone.sendKeys(pNum);
         WebElement email= driver.findElement(By.xpath("//input[@name='userName' and @id='userName']"));
-        email.sendKeys("geethu@gmail.com");
+        email.sendKeys(em);
         WebElement address= driver.findElement(By.xpath("//input[@name='address1']"));
-        address.sendKeys(" ABC line, trivandrum");
+        address.sendKeys(adr);
         WebElement city= driver.findElement(By.xpath("//input[@name='city']"));
-        city.sendKeys("Trivandrum");
+        city.sendKeys(cty);
         WebElement state= driver.findElement(By.xpath("//input[@name='state']"));
-        state.sendKeys("Kerala");
+        state.sendKeys(ste);
         WebElement postalCode= driver.findElement(By.xpath("//input[@name='postalCode']"));
-        postalCode.sendKeys("695125");
+        postalCode.sendKeys(postCode);
         WebElement userName= driver.findElement(By.xpath("//input[@name='email' and @id='email']"));
-        userName.sendKeys("geethu@gmail.com");
+        userName.sendKeys(em);
         WebElement passWord= driver.findElement(By.xpath("//input[@name='password']"));
-        passWord.sendKeys("123@456");
+        passWord.sendKeys(pwd);
         WebElement confirmPassWord= driver.findElement(By.xpath("//input[contains(@name,'confirm')]"));
-        confirmPassWord.sendKeys("123@456");
+        confirmPassWord.sendKeys(pwd);
         WebElement submit= driver.findElement(By.xpath("//input[@name='submit']"));
         submit.click();
+        driver.close();
 
 
     }
