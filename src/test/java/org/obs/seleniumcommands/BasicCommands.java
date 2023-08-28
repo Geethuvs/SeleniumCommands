@@ -1,8 +1,11 @@
 package org.obs.seleniumcommands;
+
 import org.obs.utility.RandomData;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -284,38 +287,140 @@ public class BasicCommands extends Base {
         }
 
     }
-    public void systemUsersDataMethod(String userData,List<WebElement> systemUsersData){
-        for(int j=0;j<systemUsersData.size();j++){
-            WebElement userDetails=systemUsersData.get(j);
-            String userDetailsText=userDetails.getText();
+
+    public void systemUsersDataMethod(String userData, List<WebElement> systemUsersData) {
+        for (int j = 0; j < systemUsersData.size(); j++) {
+            WebElement userDetails = systemUsersData.get(j);
+            String userDetailsText = userDetails.getText();
             //if(userDetailsText.equals(userData)){
 
 
-          //  }
+            //  }
         }
 
     }
+
     @Test
-    public void verifyMultipleWindowHandling(){
+    public void verifyMultipleWindowHandling() {
         driver.get("https://demo.guru99.com/popup.php");
-        String parentWindow=driver.getWindowHandle();
-        WebElement clickHere=driver.findElement(By.xpath("//a[text()='Click Here']"));
+        String parentWindow = driver.getWindowHandle();
+        WebElement clickHere = driver.findElement(By.xpath("//a[text()='Click Here']"));
         clickHere.click();
-        Set<String> handles=driver.getWindowHandles();
-        Iterator<String> iteratorHandle= handles.iterator();
-        while (iteratorHandle.hasNext()){
-            String nextElement=iteratorHandle.next();
-            if(! parentWindow.equals(nextElement)){
+        Set<String> handles = driver.getWindowHandles();
+        Iterator<String> iteratorHandle = handles.iterator();
+        while (iteratorHandle.hasNext()) {
+            String nextElement = iteratorHandle.next();
+            if (!parentWindow.equals(nextElement)) {
                 driver.switchTo().window(nextElement);
-                WebElement emailId= driver.findElement(By.xpath("//input[@name='emailid']"));
+                WebElement emailId = driver.findElement(By.xpath("//input[@name='emailid']"));
                 emailId.sendKeys("abc@gmail.com");
-                WebElement submitButton=driver.findElement(By.xpath("//input[@name='btnLogin']"));
+                WebElement submitButton = driver.findElement(By.xpath("//input[@name='btnLogin']"));
                 submitButton.click();
                 driver.close();
             }
         }
         driver.switchTo().window(parentWindow);
     }
+
+    @Test
+    public void validateCountryDropDownValues() {
+        driver.get("https://demo.guru99.com/test/newtours/register.php");
+        WebElement countryDropDown = driver.findElement(By.xpath("//select[@name='country']"));
+        Select select = new Select(countryDropDown);
+        select.selectByVisibleText("INDIA");
+        //select.selectByValue("INDIA");
+        //select.selectByIndex(28);
+        List<WebElement> dropDownValues = select.getOptions();
+        System.out.println("Size of dropDown list " + dropDownValues.size());
+        for (int i = 0; i < dropDownValues.size(); i++) {
+            WebElement countryName = dropDownValues.get(i);
+            String name = countryName.getText();
+            System.out.println(name);
+        }
+    }
+
+    @Test
+
+    public void verifyCountrySelect() {
+        driver.get("https://demo.guru99.com/test/newtours/register.php");
+        WebElement countryDropDown = driver.findElement(By.xpath("//select[@name='country']"));
+        selectCountryName("AUSTRIA", countryDropDown);
+    }
+
+    public void selectCountryName(String countryName, WebElement countryDropDown) {
+        Select select = new Select(countryDropDown);
+        boolean countryFound = false;
+        List<WebElement> countryList = select.getOptions();
+        for (int i = 0; i < countryList.size(); i++) {
+            WebElement countryValue = countryList.get(i);
+            String countryValueName = countryValue.getText();
+            if (countryName.equals(countryValueName)) {
+                select.selectByValue(countryName);
+                countryFound = true;
+                return;
+            }
+        }
+        if (!countryFound) {
+            throw new RuntimeException("Country not found " + countryName);
+        }
+        WebElement selectedCountry = select.getFirstSelectedOption();
+        String countryText = selectedCountry.getText();
+        Assert.assertEquals(countryText, countryName, "Country not selected");
+    }
+
+    @Test
+    public void validateDeselect() {
+        driver.get("https://chercher.tech/practice/practice-dropdowns-selenium-webdriver");
+        WebElement countryDropDown = driver.findElement(By.xpath("//select[@id='second']"));
+        Select select = new Select(countryDropDown);
+        boolean isMultiple = select.isMultiple();
+        Assert.assertTrue(isMultiple, "Given dropdown is not a multiselect");
+        select.selectByVisibleText("Pizza");
+        select.selectByVisibleText("Donut");
+        List<WebElement> selectedOptions = select.getAllSelectedOptions();
+        for (int i = 0; i < selectedOptions.size(); i++) {
+            WebElement selectedValue = selectedOptions.get(i);
+            String valueSelected = selectedValue.getText();
+            System.out.println(valueSelected);
+        }
+        //select.deselectAll();
+        //select.deselectByVisibleText("Pizza");
+    }
+
+    @Test
+    public void selectFromDropDown() throws InterruptedException {
+        driver.get("http://seleniumpractise.blogspot.com/2016/08/bootstrap-dropdown-example-for-selenium.html");
+        WebElement tutorialButton = driver.findElement(By.id("menu1"));
+        tutorialButton.click();
+        Thread.sleep(10000);
+        List<WebElement> dropDownList = driver.findElements(By.xpath("//ul//li//a[@role='menuitem']"));
+        dropDownValues("HTML", dropDownList);
+    }
+
+    public void dropDownValues(String valueToSelect, List<WebElement> dropDownList) {
+        for (int i = 0; i < dropDownList.size(); i++) {
+            WebElement dropDownValue = dropDownList.get(i);
+            String valueText = dropDownValue.getText();
+            if (valueText.equals(valueToSelect)) {
+                dropDownValue.click();
+                break;
+            }
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
