@@ -13,11 +13,20 @@ public class RadioButtonsDemo extends Base {
     public void verifyRadioButtonDemo() {
         driver.get("https://selenium.obsqurazone.com/radio-button-demo.php");
         List<WebElement> genderList = driver.findElements(By.xpath("//input[@class='form-check-input' and @name='inlineRadioOptions']//following-sibling::label"));
-        genderSelect("Female", genderList);
+        String s="Male";
+        genderSelect(s, genderList);
         WebElement showSelectedValue = driver.findElement(By.id("button-one"));
         showSelectedValue.click();
-        boolean isDisplayed= showSelectedValue.isDisplayed();
-        Assert.assertTrue(isDisplayed,"Button not displayed");
+        String expectedMessage="Radio button "+"'"+s+"'"+" is checked";
+        WebElement message=driver.findElement(By.xpath("//div[@id='message-one']"));
+        String actualMessage= message.getText();
+        Assert.assertEquals(actualMessage,expectedMessage,"Gender successfully selected");
+
+    }
+
+    @Test
+    public void groupRadioButtonDemo() {
+        driver.get("https://selenium.obsqurazone.com/radio-button-demo.php");
         List<WebElement> patenintsGenderList = driver.findElements(By.xpath("//input[@name='student-gender']//following-sibling::label"));
         patenintsGenderSelect("Female", patenintsGenderList);
         List<WebElement> patenintsAgeGroupList = driver.findElements(By.xpath("//input[@name='student-age']/following-sibling::label"));

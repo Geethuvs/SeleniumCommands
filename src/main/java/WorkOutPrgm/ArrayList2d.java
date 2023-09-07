@@ -48,6 +48,7 @@ public class ArrayList2d {
         System.out.println(bakeryList);
 
         System.out.println("For loop");
+        //System.out.println(bakeryList.size());
         for(int i=0;i<bakeryList.size();i++)
         {
             for(int j=0;j<bakeryList.get(i).size();j++)

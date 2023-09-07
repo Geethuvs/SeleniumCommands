@@ -33,7 +33,9 @@ public class FormSubmit extends Base {
         termsAndConditions.click();
         WebElement submitForm=driver.findElement(By.xpath("//button[@class='btn btn-primary']"));
         submitForm.click();
-        boolean isDisplayed=submitForm.isDisplayed();
-        Assert.assertTrue(isDisplayed,"Button not displayed");
+        String expectedMessage="Form has been submitted successfully!";
+        WebElement submitMessage= driver.findElement(By.xpath("//div[@id='message-one']"));
+        String actualMessage= submitMessage.getText();
+        Assert.assertEquals(actualMessage,expectedMessage,"Form submission failed");
     }
 }

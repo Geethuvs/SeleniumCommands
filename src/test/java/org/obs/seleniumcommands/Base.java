@@ -35,7 +35,6 @@ public class Base {
     }
     @AfterMethod
     public void tearDown(){
-
         //driver.close();
     }
 }
